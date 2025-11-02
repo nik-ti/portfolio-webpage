@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Project {
@@ -283,6 +283,15 @@ export default function App() {
             className="relative w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 bg-[#0c111b]/95 backdrop-blur-xl shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close button */}
+            <button
+              onClick={() => setSelected(null)}
+              aria-label="Close"
+              className="absolute right-4 top-4 z-10 rounded-full border border-white/20 bg-white/10 p-2 text-zinc-200 hover:bg-white/20"
+            >
+              <X size={18} />
+            </button>
+
             <div className="max-h-[90vh] overflow-y-auto">
               <div className="relative">
                 <img
@@ -312,7 +321,9 @@ export default function App() {
                 <div className="mt-4 space-y-6 text-zinc-300">
                   {selected.details.overview && (
                     <div>
-                      <h3 className="mb-1 font-medium text-white/90">Overview</h3>
+                      <h3 className="mb-1 font-medium text-white/90">
+                        Overview
+                      </h3>
                       <p className="whitespace-pre-line">
                         {selected.details.overview}
                       </p>
