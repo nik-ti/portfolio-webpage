@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ExternalLink, X, Workflow, Brain, MessageSquare, Globe } from 'lucide-react';
+import { ArrowUp, ExternalLink, X, Workflow, Brain, MessageSquare, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Project {
@@ -404,6 +404,7 @@ const projects: Project[] = [
 
 export default function App() {
   const [selected, setSelected] = useState<Project | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const handleKey = (ev: KeyboardEvent) => {
@@ -414,6 +415,29 @@ export default function App() {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!selected) {
+      return;
+    }
+    const { overflow: originalOverflow, touchAction: originalTouchAction } =
+      document.body.style;
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.touchAction = originalTouchAction;
+    };
+  }, [selected]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -542,10 +566,20 @@ export default function App() {
         })}
       </div>
 
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-200 shadow-[0_10px_30px_rgba(30,102,255,0.25)] backdrop-blur transition-all hover:-translate-y-1 hover:border-[#1e66ff]/60 hover:bg-white/10 hover:text-white"
+        >
+          <ArrowUp size={16} />
+          Top
+        </button>
+      )}
+
       {/* modal */}
       {selected && (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 px-2 py-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 px-2 py-4 touch-pan-y backdrop-blur-sm"
           onClick={() => setSelected(null)}
         >
           <div
