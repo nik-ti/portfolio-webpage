@@ -429,13 +429,18 @@ export default function App() {
     if (!selected) {
       return;
     }
-    const { overflow: originalOverflow, touchAction: originalTouchAction } =
-      document.body.style;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalBodyTouchAction = document.body.style.touchAction;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+
     document.body.style.overflow = 'hidden';
     document.body.style.touchAction = 'none';
+    document.documentElement.style.overflow = 'hidden';
+
     return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.touchAction = originalTouchAction;
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.touchAction = originalBodyTouchAction;
+      document.documentElement.style.overflow = originalHtmlOverflow;
     };
   }, [selected]);
 
@@ -447,7 +452,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0a0d12] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#0a0d12] text-white">
       {/* animated blobs */}
       <motion.div
         aria-hidden
