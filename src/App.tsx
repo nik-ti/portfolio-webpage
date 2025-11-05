@@ -21,149 +21,74 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    title: 'AI Content Generator',
-    subtitle: 'Automated content creation platform',
+    title: 'AI Webchat Assistant',
+    subtitle: 'Customer support automation for a moving company',
     image:
-      'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['OpenAI', 'React', 'Node.js', 'MongoDB'],
+      'https://images.pexels.com/photos/8867437/pexels-photo-8867437.jpeg?auto=compress&cs=tinysrgb&w=800',
+    tech: ['n8n', 'OpenAI GPT-4.1 mini', 'GoHighLevel', 'HTML'],
     details: {
       overview:
-        'A sophisticated AI-powered platform that generates high-quality content for blogs, social media, and marketing materials. Uses advanced language models to understand context and produce human-like text.',
+        'An AI-powered webchat assistant embedded on the moving company website that answers customer questions instantly and recommends tailored next steps for upcoming moves.',
       abilities: [
-        'Generate blog posts, articles, and social media content',
-        'SEO optimization suggestions',
-        'Multi-language support',
-        'Content scheduling and publishing',
-        'Analytics and performance tracking',
+        'Delivers instant answers about services, pricing, and policies inside the site widget',
+        'Personalizes move suggestions using a RAG knowledge base built from internal documents',
+        'Captures prospect context and routes complex inquiries back to the operations team',
+        'Runs 24/7 so visitors always have a live support experience without human wait times',
       ],
       setup:
-        'Built with React frontend and Node.js backend. Integrated with OpenAI GPT-4 API for content generation. MongoDB for storing user data and generated content.',
+        'Implemented on n8n orchestrating OpenAI GPT-4.1 mini with Retrieval-Augmented Generation over structured company docs. Knowledge base content is vectorized and kept current so responses stay accurate.',
       architecture:
-        'Microservices architecture with separate services for authentication, content generation, and analytics. Uses Redis for caching and rate limiting.',
-      notes: 'Reduced content creation time by 75% for clients. Currently serving 500+ active users.',
+        'n8n workflows coordinate chat context, vector lookups, and model prompts while a lightweight HTML widget embedded via GoHighLevel renders the assistant on every page.',
+      notes:
+        'Reduced first-response time from hours to seconds and now resolves most pre-sales questions autonomously.',
     },
   },
   {
     id: 2,
-    title: 'Trading Bot Platform',
-    subtitle: 'Algorithmic cryptocurrency trading',
+    title: 'Straddle Trading Bot',
+    subtitle: 'Automated news-driven volatility trading',
     image:
-      'https://images.pexels.com/photos/6771607/pexels-photo-6771607.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['Python', 'TensorFlow', 'Binance API', 'PostgreSQL'],
+      'https://images.pexels.com/photos/6802049/pexels-photo-6802049.jpeg?auto=compress&cs=tinysrgb&w=800',
+    tech: ['n8n', 'Python', 'FastAPI', 'MySQL', 'Bybit API', 'Telegram Bot API'],
     details: {
       overview:
-        'Advanced algorithmic trading platform that executes trades automatically based on technical indicators and machine learning predictions. Supports multiple exchanges and trading pairs.',
+        'An automated system that executes straddle orders around major economic news, capturing volatility breakouts on Solana or other assets while managing the entire trade lifecycle.',
       abilities: [
-        'Real-time market data analysis',
-        'Multiple trading strategies (DCA, Grid, Momentum)',
-        'Risk management and stop-loss automation',
-        'Backtesting with historical data',
-        'Portfolio rebalancing',
+        'Schedules economic events automatically and supports ad-hoc entries from Telegram',
+        'Places conditional buy and sell orders 10 minutes pre-event using ATR-based levels',
+        'Cancels the opposite leg once a breakout triggers and deploys ATR take-profit/stop-loss',
+        'Sends Telegram notifications for scheduling, fills, cancellations, and any errors',
       ],
       setup:
-        'Python-based trading engine with TensorFlow for price prediction models. Connected to major exchanges via REST and WebSocket APIs.',
+        'Monthly n8n workflow scrapes BLS calendars into MySQL, while a 2-minute worker loop watches for events approaching the execution window and forwards payloads to the trading engine.',
       architecture:
-        'Event-driven architecture with separate modules for data collection, strategy execution, and risk management. Uses PostgreSQL for transaction history.',
+        'FastAPI service in Python calculates entry levels, pushes stop orders to Bybit, and supervises execution status; Telegram bot provides the operator interface for updates and custom events.',
       notes:
-        'Achieved 67% win rate over 6-month testing period. Manages $2M+ in client assets.',
+        'Successfully automates news straddles end-to-end, eliminating manual coordination and reaction delays.',
     },
   },
   {
     id: 3,
-    title: 'Workflow Automation Suite',
-    subtitle: 'No-code automation platform',
+    title: 'Immigration Consulting Telegram Bot',
+    subtitle: 'Lead capture and scheduling chatbot',
     image:
-      'https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['TypeScript', 'Next.js', 'Zapier', 'AWS Lambda'],
+      'https://images.pexels.com/photos/4386327/pexels-photo-4386327.jpeg?auto=compress&cs=tinysrgb&w=800',
+    tech: ['Python', 'Telegram Bot API', 'Calendly', 'CRM Integration', 'VPS Hosting'],
     details: {
       overview:
-        'A comprehensive automation platform that connects various business tools and automates repetitive tasks without coding. Visual workflow builder with 200+ integrations.',
+        'A custom Telegram bot that guides prospective immigration clients through services, captures their details, and connects them with agency representatives in real time.',
       abilities: [
-        'Visual workflow designer',
-        'Connect 200+ apps and services',
-        'Schedule automated tasks',
-        'Conditional logic and branching',
-        'Error handling and notifications',
+        'Offers guided service exploration with inline buttons and direct application flows',
+        'Sends captured contact data to the CRM with appropriate tags and service notes',
+        'Provides quick actions for asking questions, learning about the agency, or booking Zoom calls',
+        'Implements a /help command and persistent keyboards for intuitive navigation',
       ],
       setup:
-        'Built with Next.js for the frontend interface. AWS Lambda for executing automation workflows. Integration with Zapier and native APIs.',
+        'Developed entirely in Python and hosted on a private VPS to run continuously with process monitoring, CRM webhooks, and Calendly integration for scheduling.',
       architecture:
-        'Serverless architecture using AWS Lambda and Step Functions. DynamoDB for storing workflow configurations and execution logs.',
+        'Telegram command handlers orchestrate the conversational flow while backend modules push leads to the CRM and notify internal Telegram groups for follow-up.',
       notes:
-        'Saves clients an average of 20 hours per week. Processing 10,000+ automation runs daily.',
-    },
-  },
-  {
-    id: 4,
-    title: 'E-Commerce Platform',
-    subtitle: 'Modern online shopping experience',
-    image:
-      'https://images.pexels.com/photos/8849295/pexels-photo-8849295.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['React', 'Stripe', 'Node.js', 'Redis'],
-    details: {
-      overview:
-        'Full-featured e-commerce platform with modern UX, secure payment processing, and inventory management. Optimized for conversion and mobile experience.',
-      abilities: [
-        'Product catalog with search and filters',
-        'Shopping cart and wishlist',
-        'Secure checkout with Stripe',
-        'Order tracking and notifications',
-        'Admin dashboard for inventory',
-      ],
-      setup:
-        'React SPA with Node.js backend. Stripe for payment processing. Redis for session management and caching.',
-      notes:
-        '40% increase in conversion rate compared to previous platform. Handles 5,000+ daily visitors.',
-    },
-  },
-  {
-    id: 5,
-    title: 'AI Image Recognition',
-    subtitle: 'Computer vision analysis tool',
-    image:
-      'https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['Python', 'TensorFlow', 'OpenCV', 'FastAPI'],
-    details: {
-      overview:
-        'Advanced image recognition system that identifies objects, faces, and text in images. Used for quality control, security, and content moderation.',
-      abilities: [
-        'Object detection and classification',
-        'Facial recognition and analysis',
-        'OCR for text extraction',
-        'Image quality assessment',
-        'Batch processing capabilities',
-      ],
-      setup:
-        'Python backend with TensorFlow and OpenCV for image processing. FastAPI for REST endpoints. GPU-accelerated inference.',
-      architecture:
-        'Microservices with separate containers for different recognition tasks. Load balanced across multiple GPU instances.',
-      notes:
-        '99.2% accuracy on benchmark datasets. Processing 50,000+ images daily.',
-    },
-  },
-  {
-    id: 6,
-    title: 'Real-Time Analytics Dashboard',
-    subtitle: 'Business intelligence platform',
-    image:
-      'https://images.pexels.com/photos/8853502/pexels-photo-8853502.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tech: ['React', 'D3.js', 'Apache Kafka', 'ClickHouse'],
-    details: {
-      overview:
-        'Real-time analytics dashboard that processes and visualizes business metrics from multiple data sources. Provides actionable insights with interactive charts.',
-      abilities: [
-        'Real-time data streaming',
-        'Interactive charts and graphs',
-        'Custom metric calculations',
-        'Alerting and notifications',
-        'Export and reporting',
-      ],
-      setup:
-        'React frontend with D3.js for visualizations. Apache Kafka for real-time data streaming. ClickHouse for fast analytical queries.',
-      architecture:
-        'Stream processing architecture with Kafka as message broker. ClickHouse for time-series data storage and analysis.',
-      notes:
-        'Reduced reporting time from hours to seconds. Monitoring 1B+ events per day.',
+        'Streamlines the intake pipeline by keeping prospects inside Telegram from discovery through consultation booking.',
     },
   },
 ];
