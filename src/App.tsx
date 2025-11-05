@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ExternalLink, X, Workflow, Brain, MessageSquare, Globe, Layers } from 'lucide-react';
+import { ExternalLink, X, Workflow, Brain, MessageSquare, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Project {
@@ -29,12 +29,11 @@ const sections: Section[] = [
   { id: 'ai-integrations', title: 'AI Integrations', icon: Brain },
   { id: 'telegram-bots', title: 'Telegram Bots', icon: MessageSquare },
   { id: 'web-apps', title: 'Web Apps', icon: Globe },
-  { id: 'other', title: 'Other', icon: Layers },
 ];
 
 const projects: Project[] = [
   {
-    id: 1,
+    id: 101,
     title: 'Straddle Trading Bot',
     subtitle: 'Automated news-driven volatility trading',
     category: 'automations',
@@ -57,11 +56,80 @@ const projects: Project[] = [
     },
   },
   {
-    id: 2,
+    id: 102,
+    title: 'Sales Pipeline Automation Suite',
+    subtitle: 'Hands-free lead routing and follow-up',
+    category: 'automations',
+    tech: ['n8n', 'HubSpot API', 'Slack', 'Google Sheets'],
+    details: {
+      overview:
+        'Orchestrated a sales automation layer that captures inbound leads, enriches them, and triggers account-specific follow-ups without manual effort.',
+      abilities: [
+        'Scores and prioritizes leads using real-time enrichment data',
+        'Routes warm leads to the correct rep via Slack with next-step suggestions',
+        'Creates and updates HubSpot deals with lifecycle tagging',
+        'Generates daily pipeline snapshots for leadership in Google Sheets',
+      ],
+      setup:
+        'Built in n8n with webhook ingestion, enrichment APIs, and CRM actions. Slack alerts share direct call-to-actions and context for each rep.',
+      architecture:
+        'Event-driven workflows that fan out from inbound capture into enrichment, CRM updates, and notification subflows while logging every change for auditing.',
+      notes:
+        'Cut first-response time from 6 hours to under 20 minutes and increased MQL conversion by 18%.',
+    },
+  },
+  {
+    id: 103,
+    title: 'Finance Ops Reconciliation Flow',
+    subtitle: 'Automated invoice validation and reporting',
+    category: 'automations',
+    tech: ['n8n', 'Xero API', 'Google Cloud Functions', 'Slack', 'BigQuery'],
+    details: {
+      overview:
+        'Automated the weekly reconciliation process by cross-referencing invoices, payouts, and expense reports, flagging discrepancies before the finance review.',
+      abilities: [
+        'Fetches payables and receivables data from Xero and payment gateways',
+        'Matches transactions against expense feeds using fuzzy logic',
+        'Posts anomaly alerts with remediation steps to the finance Slack channel',
+        'Publishes clean datasets to BigQuery for dashboards and audits',
+      ],
+      setup:
+        'Scheduled n8n workflows coordinate API pulls, with Google Cloud Functions handling heavy comparison logic before results return to n8n for messaging.',
+      architecture:
+        'Modular microflows separate data ingestion, reconciliation, and reporting so finance can tweak thresholds without redeploying code.',
+      notes:
+        'Shrank reconciliation time from two days to a 30-minute review cycle and prevented duplicated payments in the first month.',
+    },
+  },
+  {
+    id: 104,
+    title: 'HR Onboarding Automation',
+    subtitle: 'Zero-touch provisioning for new hires',
+    category: 'automations',
+    tech: ['Make.com', 'BambooHR', 'Google Workspace', 'Slack', 'Notion'],
+    details: {
+      overview:
+        'Delivered an onboarding automation that creates accounts, schedules orientation, and assigns training resources the moment an offer is accepted.',
+      abilities: [
+        'Creates Google Workspace accounts with role-based templates',
+        'Provisions Slack access with channel auto-joins and welcome DM',
+        'Generates personalized onboarding hub pages in Notion',
+        'Schedules calendar events and equipment reminders automatically',
+      ],
+      setup:
+        'Make.com orchestrates BambooHR webhooks, Workspace admin APIs, Slack messaging, and Notion templates in a single multi-step scenario.',
+      architecture:
+        'Event-triggered playbooks that branch by department, guaranteeing each hire receives the right resources without manual ticketing.',
+      notes:
+        'Reduced onboarding coordination time by 80% and improved new-hire satisfaction scores on internal surveys.',
+    },
+  },
+  {
+    id: 201,
     title: 'AI Webchat Assistant',
     subtitle: 'Customer support automation for a moving company',
     category: 'ai-integrations',
-    tech: ['n8n', 'OpenAI GPT-4.1 mini', 'GoHighLevel', 'HTML'],
+    tech: ['n8n', 'OpenAI GPT-4.1 mini', 'GoHighLevel', 'HTML Widget'],
     details: {
       overview:
         'An AI-powered webchat assistant embedded on the moving company website that answers customer questions instantly and recommends tailored next steps for upcoming moves.',
@@ -80,7 +148,76 @@ const projects: Project[] = [
     },
   },
   {
-    id: 3,
+    id: 202,
+    title: 'Property Inquiry Copilot',
+    subtitle: 'AI leasing assistant for multifamily operators',
+    category: 'ai-integrations',
+    tech: ['LangChain', 'Pinecone', 'Next.js', 'AppFolio API'],
+    details: {
+      overview:
+        'A conversational assistant that qualifies property inquiries, shares tailored unit recommendations, and escalates high-intent prospects to agents.',
+      abilities: [
+        'Answers availability, pricing, and pet policy questions instantly',
+        'Recommends floor plans based on prospect preferences and budget',
+        'Books tours by syncing with AppFolio calendar availability',
+        'Summarizes each conversation and posts it into the leasing CRM',
+      ],
+      setup:
+        'LangChain orchestrates OpenAI responses with Pinecone-hosted embeddings generated from property documents and FAQs. Next.js acts as the secure public interface.',
+      architecture:
+        'Serverless functions manage chat state, retrieve relevant context, and push structured handoffs to AppFolio, ensuring agents receive ready-to-act leads.',
+      notes:
+        'Captured 30% more qualified tour bookings by letting renters self-serve outside of business hours.',
+    },
+  },
+  {
+    id: 203,
+    title: 'Knowledge Base Summarizer',
+    subtitle: 'LLM-powered insights across support content',
+    category: 'ai-integrations',
+    tech: ['OpenAI GPT-4', 'Supabase', 'n8n', 'Notion API'],
+    details: {
+      overview:
+        'Built a daily summarization pipeline that ingests product release notes, documentation, and support articles to surface actionable insights for the CS team.',
+      abilities: [
+        'Clusters related articles and generates digestible summaries',
+        'Highlights potential knowledge gaps and outdated assets',
+        'Posts summary cards into Slack with links back to source docs',
+        'Maintains searchable embeddings for ad-hoc question answering',
+      ],
+      setup:
+        'n8n orchestrates Notion and CMS fetches, stores data in Supabase, and triggers GPT-4 summarization jobs before distributing formatted recaps.',
+      architecture:
+        'ETL-style workflow with staging tables, embedding generation, and scheduled summarization functions to keep the knowledge base current.',
+      notes:
+        'Cut weekly content review time by 6 hours and improved doc findability scores in team surveys.',
+    },
+  },
+  {
+    id: 204,
+    title: 'Support Email Triage Assistant',
+    subtitle: 'AI-driven case routing for SaaS support',
+    category: 'ai-integrations',
+    tech: ['OpenAI GPT-4o mini', 'Zendesk API', 'Zapier', 'PostgreSQL'],
+    details: {
+      overview:
+        'Deployed an AI triage layer that interprets inbound support emails, categorizes issues, and drafts suggested responses for agents.',
+      abilities: [
+        'Classifies tickets by urgency, feature area, and customer tier',
+        'Populates Zendesk fields and assigns ownership instantly',
+        'Drafts context-aware reply suggestions for agent review',
+        'Flags churn-risk sentiment and notifies customer success',
+      ],
+      setup:
+        'Zapier captures emails, enriches customer metadata, and calls custom GPT actions. Results are stored in PostgreSQL for auditing and routed into Zendesk.',
+      architecture:
+        'Hybrid automation blending no-code orchestration with custom webhooks for nuanced routing, ensuring compliance and human-in-the-loop approvals.',
+      notes:
+        'Reduced average first response by 42% while maintaining agent satisfaction with AI-generated drafts.',
+    },
+  },
+  {
+    id: 301,
     title: 'Immigration Consulting Telegram Bot',
     subtitle: 'Lead capture and scheduling chatbot',
     category: 'telegram-bots',
@@ -100,6 +237,167 @@ const projects: Project[] = [
         'Telegram command handlers orchestrate the conversational flow while backend modules push leads to the CRM and notify internal Telegram groups for follow-up.',
       notes:
         'Streamlines the intake pipeline by keeping prospects inside Telegram from discovery through consultation booking.',
+    },
+  },
+  {
+    id: 302,
+    title: 'Retail Promotions Bot',
+    subtitle: 'Customer engagement bot for flash campaigns',
+    category: 'telegram-bots',
+    tech: ['Python', 'Redis', 'Stripe', 'Telegram Bot API'],
+    details: {
+      overview:
+        'Telegram experience for a D2C retailer that drives product launches, delivers limited-time promo codes, and captures purchase intent without email funnels.',
+      abilities: [
+        'Broadcasts segmented announcements with interactive product menus',
+        'Issues unique promo codes and manages redemptions via Stripe webhooks',
+        'Collects preference data to tailor future drops',
+        'Alerts the sales team when high-value users engage or request assistance',
+      ],
+      setup:
+        'Python bot hosted on a VPS with Redis for session state and Stripe integration for real-time coupon validation and order tracking.',
+      architecture:
+        'Stateful conversation flows with modular scenes, allowing marketing to roll out new campaigns by updating JSON configurations rather than code.',
+      notes:
+        'Generated a 23% uplift in launch-day sales and reduced manual support requests during promos.',
+    },
+  },
+  {
+    id: 303,
+    title: 'Field Safety Check-In Bot',
+    subtitle: 'Compliance automation for construction crews',
+    category: 'telegram-bots',
+    tech: ['Node.js', 'Supabase', 'Telegram Bot API', 'Twilio'],
+    details: {
+      overview:
+        'Ensures construction teams submit daily safety check-ins, site photos, and incident reports through a simple Telegram interface.',
+      abilities: [
+        'Schedules automated reminders based on crew rosters and time zones',
+        'Collects checklist responses and geotagged photos for compliance logs',
+        'Escalates missed check-ins to supervisors via SMS and email',
+        'Generates weekly compliance summaries accessible to leadership',
+      ],
+      setup:
+        'Built with Node.js using Telegraf, storing submissions in Supabase, and triggering Twilio notifications for escalations.',
+      architecture:
+        'Reliable queue-backed job runner that separates reminder scheduling, message parsing, and reporting pipelines for high availability.',
+      notes:
+        'Increased daily safety compliance from 62% to 97% across distributed crews.',
+    },
+  },
+  {
+    id: 304,
+    title: 'Investor Alerts Bot',
+    subtitle: 'Crypto portfolio monitoring in Telegram',
+    category: 'telegram-bots',
+    tech: ['Python', 'FastAPI', 'PostgreSQL', 'CoinGecko API'],
+    details: {
+      overview:
+        'A portfolio assistant that lets investors set price targets, monitor positions, and receive curated news bites without leaving Telegram.',
+      abilities: [
+        'Tracks live prices and on-chain metrics for configured assets',
+        'Sends instant alerts when thresholds are crossed or volatility spikes',
+        'Aggregates curated news headlines and sentiment summaries',
+        'Exports holdings snapshots as CSV directly from chat commands',
+      ],
+      setup:
+        'Python backend (FastAPI) handles data polling, stores preferences in PostgreSQL, and pushes notifications through Telegram webhooks.',
+      architecture:
+        'Asynchronous task runners collect market data, while a rules engine evaluates triggers and dispatches rich alerts with deep links.',
+      notes:
+        'Users credit the bot with catching key breakout moves while reducing notification noise by 40%.',
+    },
+  },
+  {
+    id: 401,
+    title: 'Client Performance Portal',
+    subtitle: 'Self-serve analytics for agency clients',
+    category: 'web-apps',
+    tech: ['Next.js', 'Supabase', 'Tailwind CSS', 'Recharts'],
+    details: {
+      overview:
+        'Delivered a secure portal where marketing clients review campaign performance, download reports, and collaborate with their account teams.',
+      abilities: [
+        'Displays unified dashboards across paid, organic, and email channels',
+        'Lets clients annotate charts and request strategy changes in-app',
+        'Exports branded PDF reports generated on demand',
+        'Handles granular role-based access so teams only see their brands',
+      ],
+      setup:
+        'Next.js front-end backed by Supabase auth and row-level security. CRON jobs sync channel metrics nightly before rendering visualizations with Recharts.',
+      architecture:
+        'Modular API routes combine cached metrics with live annotations, ensuring fast loads while keeping collaboration real time.',
+      notes:
+        'Cut weekly status call prep time by 10 hours and boosted client satisfaction scores.',
+    },
+  },
+  {
+    id: 402,
+    title: 'Event Registration Platform',
+    subtitle: 'Ticketing portal for hybrid conferences',
+    category: 'web-apps',
+    tech: ['Remix', 'Prisma', 'PostgreSQL', 'Stripe'],
+    details: {
+      overview:
+        'Designed a modern event app where attendees register, manage schedules, and switch between in-person and virtual experiences seamlessly.',
+      abilities: [
+        'Supports tiered ticketing with coupon codes and corporate bundles',
+        'Provides personalized agendas that sync with calendar apps',
+        'Streams live sessions with gated access for virtual attendees',
+        'Automates badge printing and check-in via QR codes',
+      ],
+      setup:
+        'Remix handles server-side rendering while Prisma manages data access. Stripe powers payments and webhooks feed attendee updates to on-site staff tools.',
+      architecture:
+        'Isomorphic app with cached public pages and authenticated dashboards, ensuring fast performance across devices and network conditions.',
+      notes:
+        'Processed 6,000+ registrations with zero payment issues and reduced on-site check-in times by half.',
+    },
+  },
+  {
+    id: 403,
+    title: 'Property Maintenance Hub',
+    subtitle: 'Resident service request application',
+    category: 'web-apps',
+    tech: ['Vue 3', 'Firebase', 'Cloud Functions', 'Twilio'],
+    details: {
+      overview:
+        'Built a resident portal that centralizes maintenance requests, technician dispatch, and status updates for a regional property manager.',
+      abilities: [
+        'Allows tenants to submit issues with media uploads and priority tags',
+        'Routes tasks to technicians with automatic scheduling and SMS alerts',
+        'Tracks SLAs and escalates overdue tickets to supervisors',
+        'Provides residents with live status tracking and completion confirmations',
+      ],
+      setup:
+        'Vue 3 SPA backed by Firebase Auth and Firestore; Cloud Functions orchestrate assignment logic and Twilio sends real-time SMS notifications.',
+      architecture:
+        'Real-time database listeners keep every stakeholder in sync while function triggers maintain data integrity and audit trails.',
+      notes:
+        'Cut maintenance resolution times by 35% and improved resident satisfaction ratings by 22%.',
+    },
+  },
+  {
+    id: 404,
+    title: 'Ops Insights Dashboard',
+    subtitle: 'Operational command center for COOs',
+    category: 'web-apps',
+    tech: ['React', 'GraphQL', 'Apollo Client', 'AWS Lambda'],
+    details: {
+      overview:
+        'Executive dashboard that consolidates KPIs from finance, operations, and customer success teams into a single command center.',
+      abilities: [
+        'Visualizes live metrics with drill-down capabilities and saved views',
+        'Runs what-if models using embedded scenario planning widgets',
+        'Alerts stakeholders when thresholds are breached with email and Slack notifications',
+        'Archives snapshots for quarterly reporting and board packs',
+      ],
+      setup:
+        'React front-end consuming a GraphQL API layer powered by AWS Lambda resolvers that aggregate data from ERP, CRM, and support systems.',
+      architecture:
+        'Event-driven data ingestion pipeline normalizes source feeds into a shared warehouse, while the GraphQL layer resolves performant queries for the UI.',
+      notes:
+        'Enabled leadership to spot operational bottlenecks days earlier and act with confidence.',
     },
   },
 ];
