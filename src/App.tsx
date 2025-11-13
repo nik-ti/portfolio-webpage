@@ -494,14 +494,14 @@ export default function App() {
 
       {/* directory navigation */}
       <nav className="relative z-10 mx-auto max-w-6xl px-6 pb-12">
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
               <button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
-                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[#1e66ff]/50 hover:bg-white/10 hover:text-white"
+                className="flex min-w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[#1e66ff]/50 hover:bg-white/10 hover:text-white"
               >
                 <Icon size={16} />
                 {section.title}
@@ -535,9 +535,9 @@ export default function App() {
                   <article
                     key={p.id}
                     onClick={() => setSelected(p)}
-                    className="group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-[#1e66ff]/70 hover:bg-white/10 hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]"
+                    className="group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xl transition-all md:hover:-translate-y-1 md:hover:border-[#1e66ff]/70 md:hover:bg-white/10 md:hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]"
                   >
-                    <h3 className="text-lg font-semibold text-white group-hover:text-[#1e66ff] transition-colors">
+                    <h3 className="text-lg font-semibold text-white transition-colors md:group-hover:text-[#1e66ff]">
                       {p.title}
                     </h3>
                     <p className="mt-1.5 text-sm text-zinc-400 line-clamp-2">
