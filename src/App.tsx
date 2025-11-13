@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ArrowUp, ExternalLink, X, Workflow, Brain, MessageSquare, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -405,16 +405,22 @@ const projects: Project[] = [
 export default function App() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const closeModal = useCallback(() => {
+    setSelected(null);
+    setActiveCardId(null);
+  }, []);
 
   useEffect(() => {
     const handleKey = (ev: KeyboardEvent) => {
       if (ev.key === 'Escape') {
-        setSelected(null);
+        closeModal();
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [closeModal]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -494,7 +500,7 @@ export default function App() {
 
       {/* directory navigation */}
       <nav className="relative z-10 mx-auto max-w-6xl px-6 pb-12">
-        <div className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [overflow-y:visible] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
@@ -531,35 +537,49 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {sectionProjects.map((p) => (
-                  <article
-                    key={p.id}
-                    onClick={() => setSelected(p)}
-                    className="group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xl transition-all md:hover:-translate-y-1 md:hover:border-[#1e66ff]/70 md:hover:bg-white/10 md:hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]"
-                  >
-                    <h3 className="text-lg font-semibold text-white transition-colors md:group-hover:text-[#1e66ff]">
-                      {p.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-zinc-400 line-clamp-2">
-                      {p.subtitle}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {p.tech.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-zinc-300"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                      {p.tech.length > 3 && (
-                        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-zinc-400">
-                          +{p.tech.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  </article>
-                ))}
+                {sectionProjects.map((p) => {
+                  const isActive = activeCardId === p.id;
+                  return (
+                    <article
+                      key={p.id}
+                      onClick={() => {
+                        setActiveCardId(p.id);
+                        setSelected(p);
+                      }}
+                      className={`group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xl transition-all ${
+                        isActive
+                          ? 'border-[#1e66ff]/70 bg-white/10 shadow-[0_10px_40px_rgba(30,102,255,0.15)]'
+                          : 'md:hover:-translate-y-1 md:hover:border-[#1e66ff]/70 md:hover:bg-white/10 md:hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]'
+                      }`}
+                    >
+                      <h3
+                        className={`text-lg font-semibold transition-colors ${
+                          isActive ? 'text-[#1e66ff]' : 'text-white md:group-hover:text-[#1e66ff]'
+                        }`}
+                      >
+                        {p.title}
+                      </h3>
+                      <p className="mt-1.5 text-sm text-zinc-400 line-clamp-2">
+                        {p.subtitle}
+                      </p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {p.tech.slice(0, 3).map((t) => (
+                          <span
+                            key={t}
+                            className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-zinc-300"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                        {p.tech.length > 3 && (
+                          <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-zinc-400">
+                            +{p.tech.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           );
@@ -580,14 +600,14 @@ export default function App() {
       {selected && (
         <div
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 px-2 py-4 touch-pan-y backdrop-blur-sm"
-          onClick={() => setSelected(null)}
+          onClick={closeModal}
         >
           <div
             className="relative w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 bg-[#0c111b]/95 backdrop-blur-xl shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setSelected(null)}
+              onClick={closeModal}
               aria-label="Close"
               className="absolute right-4 top-4 z-10 rounded-full border border-white/20 bg-white/10 p-2 text-zinc-200 hover:bg-white/20"
             >
@@ -688,7 +708,7 @@ export default function App() {
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <button
-                  onClick={() => setSelected(null)}
+                  onClick={closeModal}
                   className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-zinc-200 hover:bg-white/20"
                 >
                   ← Back
