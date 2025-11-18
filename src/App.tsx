@@ -499,8 +499,11 @@ export default function App() {
       </header>
 
       {/* directory navigation */}
-      <nav className="relative z-10 mx-auto max-w-6xl px-6 pb-12">
-        <div className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [overflow-y:visible] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
+      <nav className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-2">
+        <div
+          className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden"
+          style={{ overflowY: 'visible' }}
+        >
           {sections.map((section) => {
             const Icon = section.icon;
             return (
@@ -548,7 +551,7 @@ export default function App() {
                       }}
                       className={`group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xl transition-all ${
                         isActive
-                          ? 'border-[#1e66ff]/70 bg-white/10 shadow-[0_10px_40px_rgba(30,102,255,0.15)]'
+                          ? 'border-[#1e66ff]/70 bg-white/10 shadow-[0_10px_40px_rgba(30,102,255,0.15)] animate-pulse'
                           : 'md:hover:-translate-y-1 md:hover:border-[#1e66ff]/70 md:hover:bg-white/10 md:hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]'
                       }`}
                     >
@@ -713,7 +716,7 @@ export default function App() {
                 >
                   ← Back
                 </button>
-                <span className="text-xs text-zinc-500">
+                <span className="hidden text-xs text-zinc-500 md:inline">
                   Press ESC to close
                 </span>
               </div>
