@@ -406,6 +406,7 @@ export default function App() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const [openingCardId, setOpeningCardId] = useState<number | null>(null);
 
   const closeModal = useCallback(() => {
     setSelected(null);
@@ -450,6 +451,15 @@ export default function App() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const openProject = (project: Project) => {
+    setActiveCardId(project.id);
+    setOpeningCardId(project.id);
+    window.setTimeout(() => {
+      setSelected(project);
+      setOpeningCardId(null);
+    }, 140);
   };
 
   return (
@@ -499,10 +509,13 @@ export default function App() {
       </header>
 
       {/* directory navigation */}
-      <nav className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-2">
+      <nav
+        className="relative z-10 mx-auto max-w-6xl overflow-visible px-6 pb-12 pt-3"
+        style={{ overflow: 'visible' }}
+      >
         <div
-          className="flex gap-3 overflow-x-auto pb-2 sm:flex-wrap [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden"
-          style={{ overflowY: 'visible' }}
+          className="flex gap-3 overflow-x-auto overflow-visible pb-2 sm:flex-wrap [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden"
+          style={{ overflowY: 'visible', overflowX: 'auto' }}
         >
           {sections.map((section) => {
             const Icon = section.icon;
@@ -541,17 +554,14 @@ export default function App() {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {sectionProjects.map((p) => {
-                  const isActive = activeCardId === p.id;
+                  const isActive = activeCardId === p.id || openingCardId === p.id;
                   return (
                     <article
                       key={p.id}
-                      onClick={() => {
-                        setActiveCardId(p.id);
-                        setSelected(p);
-                      }}
+                      onClick={() => openProject(p)}
                       className={`group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xl transition-all ${
                         isActive
-                          ? 'border-[#1e66ff]/70 bg-white/10 shadow-[0_10px_40px_rgba(30,102,255,0.15)] animate-pulse'
+                          ? 'border-[#1e66ff]/80 bg-white/10 shadow-[0_0_40px_rgba(30,102,255,0.35)] ring-2 ring-[#1e66ff]/60 ring-offset-0'
                           : 'md:hover:-translate-y-1 md:hover:border-[#1e66ff]/70 md:hover:bg-white/10 md:hover:shadow-[0_10px_40px_rgba(30,102,255,0.15)]'
                       }`}
                     >
