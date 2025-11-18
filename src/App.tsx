@@ -37,7 +37,7 @@ const projects: Project[] = [
     title: 'AI News Telegram Channel',
     subtitle: 'Automated AI/automation news curation and posting pipeline',
     category: 'automations',
-    tech: ['n8n', 'javascript', 'llm'],
+    tech: ['N8n', 'JavaScript', 'LLM'],
     details: {
       overview:
         'A fully automated AI-driven news channel that continuously finds, filters, and publishes the most relevant and practical updates in AI, automation, and related technologies. The system monitors multiple sources, evaluates each article for relevance, summarizes it, generates a clean Telegram-ready post, and publishes it automatically.',
@@ -63,6 +63,7 @@ const projects: Project[] = [
       setup:
         'Article extraction uses several methods depending on the website. A series of AI nodes perform validation, duplication checks, summarization with structured storage, cover image selection, and rephrasing for Telegram delivery. When marked ready, the post publishes automatically.',
       notes: 'The channel is public, and is available here: https://t.me/simpleflow_ai',
+      links: [{ label: 'Telegram channel', href: 'https://t.me/simpleflow_ai' }],
     },
   },
   {
@@ -70,7 +71,7 @@ const projects: Project[] = [
     title: 'Straddle Trading Bot',
     subtitle: 'Automated straddle execution around major economic news',
     category: 'automations',
-    tech: ['n8n', 'telegram', 'python', 'sql'],
+    tech: ['N8n', 'Telegram', 'Python', 'SQL'],
     details: {
       overview:
         'An automated trading system designed to execute straddle orders on Solana (or any other asset) before major economic news releases. The bot places a stop-buy order above the current market price and a stop-sell order below it. When the news is released and volatility spikes, one of the orders is triggered, capturing the price breakout in the correct direction while the opposite order is automatically canceled. The system manages entries, exits, and notifications end-to-end.',
@@ -113,7 +114,7 @@ const projects: Project[] = [
     title: 'AI Webchat Assistant',
     subtitle: 'AI-powered assistant for a moving company',
     category: 'ai-integrations',
-    tech: ['n8n', 'Vector database', 'llm'],
+    tech: ['N8n', 'Vector database', 'LLM'],
     details: {
       overview:
         'An AI-powered assistant designed to manage customer inquiries for a moving company. The frontend is a webchat widget integrated directly into the company’s main website, allowing users to ask questions, receive instant answers, and get tailored suggestions for their upcoming moves.',
@@ -132,7 +133,7 @@ const projects: Project[] = [
     title: 'Consulting agency telegram bot',
     subtitle: 'Service exploration and CRM handoff bot for an immigration agency',
     category: 'telegram-bots',
-    tech: ['Telegram', 'python'],
+    tech: ['Telegram', 'Python'],
     details: {
       overview:
         'A custom Telegram bot built for a U.S.-based immigration consulting agency to streamline how potential clients explore services and connect with representatives. The bot allows users to easily browse and submit service requests, learn about the company, schedule a Zoom consultation, or ask questions directly within Telegram.',
@@ -155,7 +156,7 @@ const projects: Project[] = [
     title: 'Immigration consulting web quiz',
     subtitle: 'Visa eligibility quiz with automated CRM handoff',
     category: 'web-apps',
-    tech: ['Javascript', 'llm', 'netlify'],
+    tech: ['JavaScript', 'LLM', 'Netlify'],
     details: {
       overview:
         'A web-based visa eligibility quiz built for a U.S. immigration consulting firm (Russian language interface). The quiz guides users through a short sequence of questions and, based on their responses, calculates their approximate chances of visa approval and recommends the most suitable visa categories. Before displaying results, the quiz prompts the user for contact information and automatically sends the lead to the firm’s CRM for follow-up.',
@@ -176,7 +177,7 @@ const projects: Project[] = [
     title: 'Custom websites',
     subtitle: 'React/TypeScript sites with tailored design and deployment',
     category: 'web-apps',
-    tech: ['Javascript', 'Netlify', 'Cloudflare pages'],
+    tech: ['JavaScript', 'Netlify', 'Cloudflare Pages'],
     details: {
       overview:
         'Custom-built websites and landing pages designed to align with your brand’s identity and goals. Even if you’re unsure of the style or direction, I can help you define it from scratch. All websites are developed using React, TypeScript, and Tailwind CSS. Every project is handled end-to-end: from concept and design to a fully deployed website hosted on your domain.',
@@ -190,6 +191,13 @@ const projects: Project[] = [
         'nordic-light.netlify.app',
         'terra-elements.netlify.app',
         'eclipse-style.netlify.app',
+      ],
+      links: [
+        { label: 'flow-district.netlify.app', href: 'https://flow-district.netlify.app/' },
+        { label: 'anthropic-style.netlify.app', href: 'https://anthropic-style.netlify.app/' },
+        { label: 'nordic-light.netlify.app', href: 'https://nordic-light.netlify.app/' },
+        { label: 'terra-elements.netlify.app', href: 'https://terra-elements.netlify.app/' },
+        { label: 'eclipse-style.netlify.app', href: 'https://eclipse-style.netlify.app/' },
       ],
     },
   },
@@ -457,11 +465,11 @@ export default function App() {
                       <h3 className="mb-1 font-medium text-white/90">
                         Abilities
                       </h3>
-                      <ol className="list-decimal space-y-1 pl-5">
+                      <ul className="list-disc space-y-2 pl-5 leading-relaxed">
                         {selected.details.abilities.map((feat, idx) => (
                           <li key={idx}>{feat}</li>
                         ))}
-                      </ol>
+                      </ul>
                     </div>
                   )}
                 {selected.details.setup && (
