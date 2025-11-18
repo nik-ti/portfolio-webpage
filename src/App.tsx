@@ -63,7 +63,7 @@ const projects: Project[] = [
       setup:
         'Article extraction uses several methods depending on the website. A series of AI nodes perform validation, duplication checks, summarization with structured storage, cover image selection, and rephrasing for Telegram delivery. When marked ready, the post publishes automatically.',
       notes: 'The channel is public, and is available here: https://t.me/simpleflow_ai',
-      links: [{ label: 'Telegram channel', href: 'https://t.me/simpleflow_ai' }],
+      links: [{ label: 'Link', href: 'https://t.me/simpleflow_ai' }],
     },
   },
   {
@@ -185,20 +185,9 @@ const projects: Project[] = [
         'Tailored design — Every website is uniquely created to match your brand’s tone.',
         'Modern functionality — Animations, databases, dynamic forms, AI chatbots, and other tool integrations available.',
         'Deployment-ready — Full setup and hosting assistance on Netlify or your preferred platform.',
-        'Demo Websites:',
-        'flow-district.netlify.app',
-        'anthropic-style.netlify.app',
-        'nordic-light.netlify.app',
-        'terra-elements.netlify.app',
-        'eclipse-style.netlify.app',
+        'Demo sites available on request.',
       ],
-      links: [
-        { label: 'flow-district.netlify.app', href: 'https://flow-district.netlify.app/' },
-        { label: 'anthropic-style.netlify.app', href: 'https://anthropic-style.netlify.app/' },
-        { label: 'nordic-light.netlify.app', href: 'https://nordic-light.netlify.app/' },
-        { label: 'terra-elements.netlify.app', href: 'https://terra-elements.netlify.app/' },
-        { label: 'eclipse-style.netlify.app', href: 'https://eclipse-style.netlify.app/' },
-      ],
+      links: [{ label: 'Demo sites', href: '#' }],
     },
   },
 ];
