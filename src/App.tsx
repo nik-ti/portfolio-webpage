@@ -34,373 +34,167 @@ const sections: Section[] = [
 const projects: Project[] = [
   {
     id: 101,
-    title: 'Straddle Trading Bot',
-    subtitle: 'Automated news-driven volatility trading',
+    title: 'AI News Telegram Channel',
+    subtitle: 'Automated AI/automation news curation and posting pipeline',
     category: 'automations',
-    tech: ['n8n', 'Python', 'FastAPI', 'MySQL', 'Bybit API'],
+    tech: ['n8n', 'javascript', 'llm'],
     details: {
       overview:
-        'An automated system that executes straddle orders around major economic news, capturing volatility breakouts on Solana or other assets while managing the entire trade lifecycle.',
+        'A fully automated AI-driven news channel that continuously finds, filters, and publishes the most relevant and practical updates in AI, automation, and related technologies. The system monitors multiple sources, evaluates each article for relevance, summarizes it, generates a clean Telegram-ready post, and publishes it automatically.',
       abilities: [
-        'Schedules economic events automatically and supports ad-hoc entries from Telegram',
-        'Places conditional buy and sell orders 10 minutes pre-event using ATR-based levels',
-        'Cancels the opposite leg once a breakout triggers and deploys ATR take-profit/stop-loss',
-        'Sends Telegram notifications for scheduling, fills, cancellations, and any errors',
+        'Automatic collection of news articles from multiple sources',
+        'Intelligent filtering to ensure each article matches the channel’s criteria',
+        'AI-powered summarization, rephrasing, and formatting for Telegram',
+        'Automatic selection of a relevant cover image',
+        'All posts logged, versioned, and tracked in a centralized Notion database',
+        'Entire system is built on the n8n automation platform',
+        'Workflows are separated into modular pipelines, all connected through a shared Notion database',
+        'Article extraction uses several methods depending on the website:',
+        'Direct HTML scraping',
+        'RSS feeds',
+        'AI-powered research and content retrieval',
+        'Validate that an article matches the posting criteria',
+        'Check the database to prevent duplicate news',
+        'Summarize the article and save structured data to Notion',
+        'Find or generate a relevant cover image',
+        'Rephrase and format the content for clean Telegram delivery',
+        'When a post is “ready to be posted”, it is automatically published to the Telegram channel',
       ],
       setup:
-        'Monthly n8n workflow scrapes BLS calendars into MySQL, while a 2-minute worker loop watches for events approaching the execution window and forwards payloads to the trading engine.',
-      architecture:
-        'FastAPI service in Python calculates entry levels, pushes stop orders to Bybit, and supervises execution status; Telegram bot provides the operator interface for updates and custom events.',
-      notes:
-        'Successfully automates news straddles end-to-end, eliminating manual coordination and reaction delays.',
-    },
-  },
-  {
-    id: 102,
-    title: 'Sales Pipeline Automation Suite',
-    subtitle: 'Hands-free lead routing and follow-up',
-    category: 'automations',
-    tech: ['n8n', 'HubSpot API', 'Slack', 'Google Sheets'],
-    details: {
-      overview:
-        'Orchestrated a sales automation layer that captures inbound leads, enriches them, and triggers account-specific follow-ups without manual effort.',
-      abilities: [
-        'Scores and prioritizes leads using real-time enrichment data',
-        'Routes warm leads to the correct rep via Slack with next-step suggestions',
-        'Creates and updates HubSpot deals with lifecycle tagging',
-        'Generates daily pipeline snapshots for leadership in Google Sheets',
-      ],
-      setup:
-        'Built in n8n with webhook ingestion, enrichment APIs, and CRM actions. Slack alerts share direct call-to-actions and context for each rep.',
-      architecture:
-        'Event-driven workflows that fan out from inbound capture into enrichment, CRM updates, and notification subflows while logging every change for auditing.',
-      notes:
-        'Cut first-response time from 6 hours to under 20 minutes and increased MQL conversion by 18%.',
+        'Article extraction uses several methods depending on the website. A series of AI nodes perform validation, duplication checks, summarization with structured storage, cover image selection, and rephrasing for Telegram delivery. When marked ready, the post publishes automatically.',
+      notes: 'The channel is public, and is available here: https://t.me/simpleflow_ai',
     },
   },
   {
     id: 103,
-    title: 'Finance Ops Reconciliation Flow',
-    subtitle: 'Automated invoice validation and reporting',
+    title: 'Straddle Trading Bot',
+    subtitle: 'Automated straddle execution around major economic news',
     category: 'automations',
-    tech: ['n8n', 'Xero API', 'Google Cloud Functions', 'Slack', 'BigQuery'],
+    tech: ['n8n', 'telegram', 'python', 'sql'],
     details: {
       overview:
-        'Automated the weekly reconciliation process by cross-referencing invoices, payouts, and expense reports, flagging discrepancies before the finance review.',
+        'An automated trading system designed to execute straddle orders on Solana (or any other asset) before major economic news releases. The bot places a stop-buy order above the current market price and a stop-sell order below it. When the news is released and volatility spikes, one of the orders is triggered, capturing the price breakout in the correct direction while the opposite order is automatically canceled. The system manages entries, exits, and notifications end-to-end.',
       abilities: [
-        'Fetches payables and receivables data from Xero and payment gateways',
-        'Matches transactions against expense feeds using fuzzy logic',
-        'Posts anomaly alerts with remediation steps to the finance Slack channel',
-        'Publishes clean datasets to BigQuery for dashboards and audits',
+        'Automated Economic Event Scheduling: Automatically retrieves upcoming U.S. economic data release dates (BLS) and stores them in a database.',
+        'Custom Event Support: Users can add additional custom events through a Telegram bot interface.',
+        'Automated Straddle Execution: 10 minutes before each event, the bot places conditional buy and sell orders based on current price and ATR-based volatility calculations.',
+        'Position Management: Whichever side is triggered first becomes the active trade; the opposite order is automatically canceled; the bot then places take-profit and stop-loss orders using ATR-based levels; if no order triggers within 2 hours post-event, both are canceled.',
+        'Telegram Notifications: Full transparency of every stage — scheduling, order placement, fills, cancellations, and errors.',
+        'Event Scheduling (n8n Workflow): Runs monthly to scrape and parse the official BLS release calendar; cleans and stores events in a MySQL database (duplicate-aware); can also be triggered manually from Telegram to add custom events.',
+        'Event Triggering (n8n Worker Loop): Runs every 2 minutes to check for events occurring within the next 10 minutes; when an event is approaching, it forwards the event payload to the trading bot API and marks the event as processed.',
+        'Trading Engine (Python + FastAPI): Receives event data, fetches current Solana market price, and calculates straddle entry levels via ATR; places stop-orders on Bybit and monitors order execution; handles order cancellation, TP, and SL placement automatically.',
+        'Telegram Bot Interface (Python): Sends real-time execution updates and alerts; allows the user to view upcoming events and manage custom events; useful as both monitoring + interaction frontend.',
       ],
-      setup:
-        'Scheduled n8n workflows coordinate API pulls, with Google Cloud Functions handling heavy comparison logic before results return to n8n for messaging.',
-      architecture:
-        'Modular microflows separate data ingestion, reconciliation, and reporting so finance can tweak thresholds without redeploying code.',
-      notes:
-        'Shrank reconciliation time from two days to a 30-minute review cycle and prevented duplicated payments in the first month.',
     },
   },
   {
     id: 104,
-    title: 'HR Onboarding Automation',
-    subtitle: 'Zero-touch provisioning for new hires',
+    title: 'Thank you letter & review request automation',
+    subtitle: 'Automated follow-up and review routing for a moving company',
     category: 'automations',
-    tech: ['Make.com', 'BambooHR', 'Google Workspace', 'Slack', 'Notion'],
+    tech: ['Make.com', 'GoHighLevel'],
     details: {
       overview:
-        'Delivered an onboarding automation that creates accounts, schedules orientation, and assigns training resources the moment an offer is accepted.',
+        'The client — a moving company — had no structured system to follow up with customers after a completed service, resulting in missed opportunities for reviews and feedback. To solve this, we built an automated thank-you and review request system that messages every customer after their move is completed. Each message thanks them for choosing the company, reminds them about their future move discount, and requests feedback.',
       abilities: [
-        'Creates Google Workspace accounts with role-based templates',
-        'Provisions Slack access with channel auto-joins and welcome DM',
-        'Generates personalized onboarding hub pages in Notion',
-        'Schedules calendar events and equipment reminders automatically',
+        'If a customer selects 5 stars, they’re redirected directly to the company’s Google review page.',
+        'If they select 4 stars or below, they’re directed to an internal feedback form, allowing the company to review and address concerns privately.',
+        'Built using the Make.com platform.',
+        'The automation runs once a day, scanning the company’s calendar for jobs completed 2 days prior.',
+        'For each job, it retrieves customer details from the CRM, verifies that the field “Move went bad – don’t request review” is not marked true, and then proceeds.',
+        'Once verified, the system automatically sends a personalized thank-you email with the review and feedback link.',
       ],
       setup:
-        'Make.com orchestrates BambooHR webhooks, Workspace admin APIs, Slack messaging, and Notion templates in a single multi-step scenario.',
-      architecture:
-        'Event-triggered playbooks that branch by department, guaranteeing each hire receives the right resources without manual ticketing.',
-      notes:
-        'Reduced onboarding coordination time by 80% and improved new-hire satisfaction scores on internal surveys.',
+        'Built using Make.com. Runs daily to scan completed jobs from the calendar and CRM, filters out any jobs flagged “Move went bad – don’t request review,” and sends personalized thank-you emails with direct review or internal feedback routing.',
     },
   },
   {
     id: 201,
     title: 'AI Webchat Assistant',
-    subtitle: 'Customer support automation for a moving company',
+    subtitle: 'AI-powered assistant for a moving company',
     category: 'ai-integrations',
-    tech: ['n8n', 'OpenAI GPT-4.1 mini', 'GoHighLevel', 'HTML Widget'],
+    tech: ['n8n', 'Vector database', 'llm'],
     details: {
       overview:
-        'An AI-powered webchat assistant embedded on the moving company website that answers customer questions instantly and recommends tailored next steps for upcoming moves.',
+        'An AI-powered assistant designed to manage customer inquiries for a moving company. The frontend is a webchat widget integrated directly into the company’s main website, allowing users to ask questions, receive instant answers, and get tailored suggestions for their upcoming moves.',
       abilities: [
-        'Delivers instant answers about services, pricing, and policies inside the site widget',
-        'Personalizes move suggestions using a RAG knowledge base built from internal documents',
-        'Captures prospect context and routes complex inquiries back to the operations team',
-        'Runs 24/7 so visitors always have a live support experience without human wait times',
+        'The assistant is built on the n8n platform, using OpenAI’s ChatGPT 4.1 mini as its core model.',
+        'It employs a RAG (Retrieval-Augmented Generation) process to access and reference internal company data in real time.',
+        'The assistant’s knowledge base was structured and vectorized into multiple documents containing information about services, pricing, policies, and FAQs.',
+        'The frontend widget was developed in HTML and embedded into the company’s website, which is hosted within their CRM system (GoHighLevel).',
       ],
       setup:
-        'Implemented on n8n orchestrating OpenAI GPT-4.1 mini with Retrieval-Augmented Generation over structured company docs. Knowledge base content is vectorized and kept current so responses stay accurate.',
-      architecture:
-        'n8n workflows coordinate chat context, vector lookups, and model prompts while a lightweight HTML widget embedded via GoHighLevel renders the assistant on every page.',
-      notes:
-        'Reduced first-response time from hours to seconds and now resolves most pre-sales questions autonomously.',
-    },
-  },
-  {
-    id: 202,
-    title: 'Property Inquiry Copilot',
-    subtitle: 'AI leasing assistant for multifamily operators',
-    category: 'ai-integrations',
-    tech: ['LangChain', 'Pinecone', 'Next.js', 'AppFolio API'],
-    details: {
-      overview:
-        'A conversational assistant that qualifies property inquiries, shares tailored unit recommendations, and escalates high-intent prospects to agents.',
-      abilities: [
-        'Answers availability, pricing, and pet policy questions instantly',
-        'Recommends floor plans based on prospect preferences and budget',
-        'Books tours by syncing with AppFolio calendar availability',
-        'Summarizes each conversation and posts it into the leasing CRM',
-      ],
-      setup:
-        'LangChain orchestrates OpenAI responses with Pinecone-hosted embeddings generated from property documents and FAQs. Next.js acts as the secure public interface.',
-      architecture:
-        'Serverless functions manage chat state, retrieve relevant context, and push structured handoffs to AppFolio, ensuring agents receive ready-to-act leads.',
-      notes:
-        'Captured 30% more qualified tour bookings by letting renters self-serve outside of business hours.',
-    },
-  },
-  {
-    id: 203,
-    title: 'Knowledge Base Summarizer',
-    subtitle: 'LLM-powered insights across support content',
-    category: 'ai-integrations',
-    tech: ['OpenAI GPT-4', 'Supabase', 'n8n', 'Notion API'],
-    details: {
-      overview:
-        'Built a daily summarization pipeline that ingests product release notes, documentation, and support articles to surface actionable insights for the CS team.',
-      abilities: [
-        'Clusters related articles and generates digestible summaries',
-        'Highlights potential knowledge gaps and outdated assets',
-        'Posts summary cards into Slack with links back to source docs',
-        'Maintains searchable embeddings for ad-hoc question answering',
-      ],
-      setup:
-        'n8n orchestrates Notion and CMS fetches, stores data in Supabase, and triggers GPT-4 summarization jobs before distributing formatted recaps.',
-      architecture:
-        'ETL-style workflow with staging tables, embedding generation, and scheduled summarization functions to keep the knowledge base current.',
-      notes:
-        'Cut weekly content review time by 6 hours and improved doc findability scores in team surveys.',
-    },
-  },
-  {
-    id: 204,
-    title: 'Support Email Triage Assistant',
-    subtitle: 'AI-driven case routing for SaaS support',
-    category: 'ai-integrations',
-    tech: ['OpenAI GPT-4o mini', 'Zendesk API', 'Zapier', 'PostgreSQL'],
-    details: {
-      overview:
-        'Deployed an AI triage layer that interprets inbound support emails, categorizes issues, and drafts suggested responses for agents.',
-      abilities: [
-        'Classifies tickets by urgency, feature area, and customer tier',
-        'Populates Zendesk fields and assigns ownership instantly',
-        'Drafts context-aware reply suggestions for agent review',
-        'Flags churn-risk sentiment and notifies customer success',
-      ],
-      setup:
-        'Zapier captures emails, enriches customer metadata, and calls custom GPT actions. Results are stored in PostgreSQL for auditing and routed into Zendesk.',
-      architecture:
-        'Hybrid automation blending no-code orchestration with custom webhooks for nuanced routing, ensuring compliance and human-in-the-loop approvals.',
-      notes:
-        'Reduced average first response by 42% while maintaining agent satisfaction with AI-generated drafts.',
+        'Built on n8n with OpenAI’s ChatGPT 4.1 mini and a RAG workflow over a vectorized knowledge base. The HTML webchat widget sits inside their GoHighLevel-hosted site.',
     },
   },
   {
     id: 301,
-    title: 'Immigration Consulting Telegram Bot',
-    subtitle: 'Lead capture and scheduling chatbot',
+    title: 'Consulting agency telegram bot',
+    subtitle: 'Service exploration and CRM handoff bot for an immigration agency',
     category: 'telegram-bots',
-    tech: ['Python', 'Telegram Bot API', 'Calendly', 'CRM Integration'],
+    tech: ['Telegram', 'python'],
     details: {
       overview:
-        'A custom Telegram bot that guides prospective immigration clients through services, captures their details, and connects them with agency representatives in real time.',
+        'A custom Telegram bot built for a U.S.-based immigration consulting agency to streamline how potential clients explore services and connect with representatives. The bot allows users to easily browse and submit service requests, learn about the company, schedule a Zoom consultation, or ask questions directly within Telegram.',
       abilities: [
-        'Offers guided service exploration with inline buttons and direct application flows',
-        'Sends captured contact data to the CRM with appropriate tags and service notes',
-        'Provides quick actions for asking questions, learning about the agency, or booking Zoom calls',
-        'Implements a /help command and persistent keyboards for intuitive navigation',
+        'Service Exploration – A welcoming message with intuitive inline buttons that guide users through available services. Each option includes a brief explanation and the ability to apply directly within the chat.',
+        'CRM Integration – When a user selects a service, the bot automatically collects their contact details and sends the data to the agency’s CRM with proper tags and service notes.',
+        'Navigation Buttons – Four main keyboard buttons for quick access:',
+        'Main Menu – Returns the original greeting message with service options.',
+        'Ask a Question – Lets users message the bot directly; their question and contact info are sent to the agency’s internal Telegram group for follow-up.',
+        'About Us – Displays a company overview, contact details, and social media links.',
+        'Zoom Meeting – Shares a Calendly link so users can book a Zoom consultation with a representative.',
+        '/help Command – Displays a quick reference guide outlining all available bot functions.',
+        'Developed entirely with Python.',
+        'Continuously hosted and maintained on a private VPS.',
       ],
-      setup:
-        'Developed entirely in Python and hosted on a private VPS to run continuously with process monitoring, CRM webhooks, and Calendly integration for scheduling.',
-      architecture:
-        'Telegram command handlers orchestrate the conversational flow while backend modules push leads to the CRM and notify internal Telegram groups for follow-up.',
-      notes:
-        'Streamlines the intake pipeline by keeping prospects inside Telegram from discovery through consultation booking.',
-    },
-  },
-  {
-    id: 302,
-    title: 'Retail Promotions Bot',
-    subtitle: 'Customer engagement bot for flash campaigns',
-    category: 'telegram-bots',
-    tech: ['Python', 'Redis', 'Stripe', 'Telegram Bot API'],
-    details: {
-      overview:
-        'Telegram experience for a D2C retailer that drives product launches, delivers limited-time promo codes, and captures purchase intent without email funnels.',
-      abilities: [
-        'Broadcasts segmented announcements with interactive product menus',
-        'Issues unique promo codes and manages redemptions via Stripe webhooks',
-        'Collects preference data to tailor future drops',
-        'Alerts the sales team when high-value users engage or request assistance',
-      ],
-      setup:
-        'Python bot hosted on a VPS with Redis for session state and Stripe integration for real-time coupon validation and order tracking.',
-      architecture:
-        'Stateful conversation flows with modular scenes, allowing marketing to roll out new campaigns by updating JSON configurations rather than code.',
-      notes:
-        'Generated a 23% uplift in launch-day sales and reduced manual support requests during promos.',
-    },
-  },
-  {
-    id: 303,
-    title: 'Field Safety Check-In Bot',
-    subtitle: 'Compliance automation for construction crews',
-    category: 'telegram-bots',
-    tech: ['Node.js', 'Supabase', 'Telegram Bot API', 'Twilio'],
-    details: {
-      overview:
-        'Ensures construction teams submit daily safety check-ins, site photos, and incident reports through a simple Telegram interface.',
-      abilities: [
-        'Schedules automated reminders based on crew rosters and time zones',
-        'Collects checklist responses and geotagged photos for compliance logs',
-        'Escalates missed check-ins to supervisors via SMS and email',
-        'Generates weekly compliance summaries accessible to leadership',
-      ],
-      setup:
-        'Built with Node.js using Telegraf, storing submissions in Supabase, and triggering Twilio notifications for escalations.',
-      architecture:
-        'Reliable queue-backed job runner that separates reminder scheduling, message parsing, and reporting pipelines for high availability.',
-      notes:
-        'Increased daily safety compliance from 62% to 97% across distributed crews.',
-    },
-  },
-  {
-    id: 304,
-    title: 'Investor Alerts Bot',
-    subtitle: 'Crypto portfolio monitoring in Telegram',
-    category: 'telegram-bots',
-    tech: ['Python', 'FastAPI', 'PostgreSQL', 'CoinGecko API'],
-    details: {
-      overview:
-        'A portfolio assistant that lets investors set price targets, monitor positions, and receive curated news bites without leaving Telegram.',
-      abilities: [
-        'Tracks live prices and on-chain metrics for configured assets',
-        'Sends instant alerts when thresholds are crossed or volatility spikes',
-        'Aggregates curated news headlines and sentiment summaries',
-        'Exports holdings snapshots as CSV directly from chat commands',
-      ],
-      setup:
-        'Python backend (FastAPI) handles data polling, stores preferences in PostgreSQL, and pushes notifications through Telegram webhooks.',
-      architecture:
-        'Asynchronous task runners collect market data, while a rules engine evaluates triggers and dispatches rich alerts with deep links.',
-      notes:
-        'Users credit the bot with catching key breakout moves while reducing notification noise by 40%.',
-    },
-  },
-  {
-    id: 401,
-    title: 'Client Performance Portal',
-    subtitle: 'Self-serve analytics for agency clients',
-    category: 'web-apps',
-    tech: ['Next.js', 'Supabase', 'Tailwind CSS', 'Recharts'],
-    details: {
-      overview:
-        'Delivered a secure portal where marketing clients review campaign performance, download reports, and collaborate with their account teams.',
-      abilities: [
-        'Displays unified dashboards across paid, organic, and email channels',
-        'Lets clients annotate charts and request strategy changes in-app',
-        'Exports branded PDF reports generated on demand',
-        'Handles granular role-based access so teams only see their brands',
-      ],
-      setup:
-        'Next.js front-end backed by Supabase auth and row-level security. CRON jobs sync channel metrics nightly before rendering visualizations with Recharts.',
-      architecture:
-        'Modular API routes combine cached metrics with live annotations, ensuring fast loads while keeping collaboration real time.',
-      notes:
-        'Cut weekly status call prep time by 10 hours and boosted client satisfaction scores.',
-    },
-  },
-  {
-    id: 402,
-    title: 'Event Registration Platform',
-    subtitle: 'Ticketing portal for hybrid conferences',
-    category: 'web-apps',
-    tech: ['Remix', 'Prisma', 'PostgreSQL', 'Stripe'],
-    details: {
-      overview:
-        'Designed a modern event app where attendees register, manage schedules, and switch between in-person and virtual experiences seamlessly.',
-      abilities: [
-        'Supports tiered ticketing with coupon codes and corporate bundles',
-        'Provides personalized agendas that sync with calendar apps',
-        'Streams live sessions with gated access for virtual attendees',
-        'Automates badge printing and check-in via QR codes',
-      ],
-      setup:
-        'Remix handles server-side rendering while Prisma manages data access. Stripe powers payments and webhooks feed attendee updates to on-site staff tools.',
-      architecture:
-        'Isomorphic app with cached public pages and authenticated dashboards, ensuring fast performance across devices and network conditions.',
-      notes:
-        'Processed 6,000+ registrations with zero payment issues and reduced on-site check-in times by half.',
     },
   },
   {
     id: 403,
-    title: 'Property Maintenance Hub',
-    subtitle: 'Resident service request application',
+    title: 'Immigration consulting web quiz',
+    subtitle: 'Visa eligibility quiz with automated CRM handoff',
     category: 'web-apps',
-    tech: ['Vue 3', 'Firebase', 'Cloud Functions', 'Twilio'],
+    tech: ['Javascript', 'llm', 'netlify'],
     details: {
       overview:
-        'Built a resident portal that centralizes maintenance requests, technician dispatch, and status updates for a regional property manager.',
+        'A web-based visa eligibility quiz built for a U.S. immigration consulting firm (Russian language interface). The quiz guides users through a short sequence of questions and, based on their responses, calculates their approximate chances of visa approval and recommends the most suitable visa categories. Before displaying results, the quiz prompts the user for contact information and automatically sends the lead to the firm’s CRM for follow-up.',
       abilities: [
-        'Allows tenants to submit issues with media uploads and priority tags',
-        'Routes tasks to technicians with automatic scheduling and SMS alerts',
-        'Tracks SLAs and escalates overdue tickets to supervisors',
-        'Provides residents with live status tracking and completion confirmations',
+        'Probability Scoring: Calculates the user’s estimated likelihood of visa approval based on weighted responses.',
+        'Visa Recommendations: Suggests the most relevant U.S. visa categories for the user’s situation.',
+        'Automated Lead Capture: Collects contact details and creates the prospect inside the CRM.',
+        'CRM Integration: Adds tags, updates the pipeline stage, and attaches a full summary of user responses and recommendations.',
+        'Team Notifications: Automatically sends a new-lead alert to the firm’s internal Telegram group.',
+        'Frontend: Built with React + TypeScript and deployed on Netlify.',
+        'Logic Model: The scoring system and visa recommendation logic were defined with the firm and refined using AI assistance. Each quiz response contributes weighted points to the total score.',
+        'Automation: On submission, data is sent to a Make.com workflow, which: Creates the contact in the CRM; Adds the appropriate tags and custom notes; Moves the lead to the correct pipeline stage; Sends a Telegram notification to the team.',
       ],
-      setup:
-        'Vue 3 SPA backed by Firebase Auth and Firestore; Cloud Functions orchestrate assignment logic and Twilio sends real-time SMS notifications.',
-      architecture:
-        'Real-time database listeners keep every stakeholder in sync while function triggers maintain data integrity and audit trails.',
-      notes:
-        'Cut maintenance resolution times by 35% and improved resident satisfaction ratings by 22%.',
     },
   },
   {
     id: 404,
-    title: 'Ops Insights Dashboard',
-    subtitle: 'Operational command center for COOs',
+    title: 'Custom websites',
+    subtitle: 'React/TypeScript sites with tailored design and deployment',
     category: 'web-apps',
-    tech: ['React', 'GraphQL', 'Apollo Client', 'AWS Lambda'],
+    tech: ['Javascript', 'Netlify', 'Cloudflare pages'],
     details: {
       overview:
-        'Executive dashboard that consolidates KPIs from finance, operations, and customer success teams into a single command center.',
+        'Custom-built websites and landing pages designed to align with your brand’s identity and goals. Even if you’re unsure of the style or direction, I can help you define it from scratch. All websites are developed using React, TypeScript, and Tailwind CSS. Every project is handled end-to-end: from concept and design to a fully deployed website hosted on your domain.',
       abilities: [
-        'Visualizes live metrics with drill-down capabilities and saved views',
-        'Runs what-if models using embedded scenario planning widgets',
-        'Alerts stakeholders when thresholds are breached with email and Slack notifications',
-        'Archives snapshots for quarterly reporting and board packs',
+        'Tailored design — Every website is uniquely created to match your brand’s tone.',
+        'Modern functionality — Animations, databases, dynamic forms, AI chatbots, and other tool integrations available.',
+        'Deployment-ready — Full setup and hosting assistance on Netlify or your preferred platform.',
+        'Demo Websites:',
+        'flow-district.netlify.app',
+        'anthropic-style.netlify.app',
+        'nordic-light.netlify.app',
+        'terra-elements.netlify.app',
+        'eclipse-style.netlify.app',
       ],
-      setup:
-        'React front-end consuming a GraphQL API layer powered by AWS Lambda resolvers that aggregate data from ERP, CRM, and support systems.',
-      architecture:
-        'Event-driven data ingestion pipeline normalizes source feeds into a shared warehouse, while the GraphQL layer resolves performant queries for the UI.',
-      notes:
-        'Enabled leadership to spot operational bottlenecks days earlier and act with confidence.',
     },
   },
 ];
+
 
 export default function App() {
   const [selected, setSelected] = useState<Project | null>(null);
